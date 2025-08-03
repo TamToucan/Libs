@@ -41,6 +41,7 @@ function(BUILD_LIB)
         ${CMAKE_CURRENT_SOURCE_DIR}/${lib}/include
         ${CMAKE_SOURCE_DIR}/lib/Util
     )
+    target_link_libraries(${libname} PUBLIC Util)
 
 endfunction()
 
