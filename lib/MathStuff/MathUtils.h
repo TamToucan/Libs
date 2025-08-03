@@ -4,8 +4,6 @@
 #include <limits>
 #include <cmath>
 
-#include "BuildConfig.h"
-
 namespace MathStuff {
 
 #define MY_PI               3.14159265358979323846
