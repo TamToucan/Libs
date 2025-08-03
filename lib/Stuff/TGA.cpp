@@ -200,7 +200,7 @@ bool TGA::saveToFile(const char* pFilename,
         return false;
     }
 
-    char l_imageType;
+    unsigned char l_imageType;
     switch (pixelDepth)
     {
     case 8:

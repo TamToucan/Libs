@@ -11,16 +11,37 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 
-# Build lib using all sources and named same as dir (if no argv1)
-#
 function(BUILD_LIB)
-   if (${ARGC} EQUAL 0)
-      get_filename_component(lib ${CMAKE_CURRENT_SOURCE_DIR} NAME)
-   else (${ARGC} EQUAL 0)
-      set(lib "${ARGV0}")
-   endif (${ARGC} EQUAL 0)
-   file(GLOB ${lib}_SOURCES *.C *.c *.cpp)
-   include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../Util")
-   add_library(${lib} STATIC ${${lib}_SOURCES})
-endfunction(BUILD_LIB)
+    if(${ARGC} GREATER 1)
+        message(FATAL_ERROR "BUILD_LIB takes 0 or 1 argument")
+    endif()
+
+    if(${ARGC} EQUAL 1)
+        set(libname "${ARGV0}")
+    else()
+        # Default to the name of the current source dir (e.g., Algo, PCG)
+        get_filename_component(libname "${CMAKE_CURRENT_SOURCE_DIR}" NAME)
+    endif()
+
+    set(lib_src_dir "${CMAKE_CURRENT_SOURCE_DIR}")
+    set(lib_include_dir "${CMAKE_CURRENT_SOURCE_DIR}")
+
+    file(GLOB_RECURSE srcs CONFIGURE_DEPENDS
+	    "${lib_src_dir}/*.c"
+	    "${lib_src_dir}/*.C"
+	    "${lib_src_dir}/*.cpp")
+
+    if(NOT srcs)
+        message(WARNING "No source files found for ${libname} in ${lib_src_dir}")
+    endif()
+
+    add_library(${libname} STATIC ${srcs})
+
+    target_include_directories(${libname} PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/${lib}/include
+        ${CMAKE_SOURCE_DIR}/lib/Util
+    )
+
+endfunction()
+
 add_subdirectory(lib)
