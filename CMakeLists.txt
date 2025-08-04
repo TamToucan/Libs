@@ -26,7 +26,7 @@ function(BUILD_LIB libname)
     # Include this lib's own headers
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}")
         target_include_directories(${libname} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
-	message(STATUS "------------------ ADD OWN)
+	message(STATUS "------------------ ADD OWN")
     endif()
 
     # Always include Util headers — try both monorepo and nested FetchContent paths
