@@ -1,2 +1,2 @@
-BUILD_LIB(Randcom)
+BUILD_LIB(Random)
 
