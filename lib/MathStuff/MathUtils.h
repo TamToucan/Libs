@@ -2,7 +2,10 @@
 #define MATHUTILS_H
 
 #include <limits>
+
+#define _USE_MATH_DEFINES
 #include <cmath>
+#define HAVE_LRINTF
 
 namespace MathStuff {
 
@@ -28,6 +31,7 @@ inline long int float2int(float f)
     return ((int)(f+0.5f));
 #endif
 }
+
 inline long int floor(float f) {
 #if defined(WIN32)
     return float2int(f-0.5f);
