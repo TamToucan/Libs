@@ -16,7 +16,7 @@ function(BUILD_LIB libname)
     set(multi_value_args DEPENDS)
     cmake_parse_arguments(ARG "${options}" "${one_value_args}" "${multi_value_args}" ${ARGN})
 
-    # Gather source files
+    # Grab source files
     file(GLOB_RECURSE srcs CONFIGURE_DEPENDS
         "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/*.c"
@@ -26,24 +26,21 @@ function(BUILD_LIB libname)
 
     add_library(${libname} STATIC ${srcs})
 
-    # Add own include path (headers are in same dir as sources)
+    # Always add this lib's own directory for headers
     target_include_directories(${libname} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
 
-    # Add include paths and link for declared dependencies
-    foreach(dep IN LISTS ARG_DEPENDS)
-        # Try to find the dep's directory relative to this library
-        if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../${dep}")
-            target_include_directories(${libname} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/../${dep}")
-        elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../../../../libs-src/lib/${dep}")
-            target_include_directories(${libname} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/../../../../libs-src/lib/${dep}")
-        else()
-            message(WARNING "Include path for dependency '${dep}' not found from ${libname}")
-        endif()
+    # Always include Util headers (no conditions, no target checks)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../Util")
+        target_include_directories(${libname} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/../Util")
+    elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../../../../libs-src/lib/Util")
+        target_include_directories(${libname} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/../../../../libs-src/lib/Util")
+    else()
+        message(FATAL_ERROR "Cannot locate Util directory for ${libname}")
+    endif()
 
-        # Link against the dependency if it's a known CMake target
-        if(TARGET ${dep})
-            target_link_libraries(${libname} PUBLIC ${dep})
-        endif()
+    # Link explicitly declared deps (excluding Util)
+    foreach(dep IN LISTS ARG_DEPENDS)
+        target_link_libraries(${libname} PUBLIC ${dep})
     endforeach()
 endfunction()
 
