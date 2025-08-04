@@ -1,4 +1,4 @@
-BUILD_LIB()
+BUILD_LIB(Stuff)
 
 set_source_files_properties(
     ${CMAKE_CURRENT_SOURCE_DIR}/TGA.cpp

@@ -1,2 +1,2 @@
-BUILD_LIB()
+BUILD_LIB(MathStuff)
 
