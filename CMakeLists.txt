@@ -21,33 +21,29 @@ function(BUILD_LIB libname)
         "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/*.c"
         "${CMAKE_CURRENT_SOURCE_DIR}/*.C"
+        "${CMAKE_CURRENT_SOURCE_DIR}/*.cc"
     )
+
     add_library(${libname} STATIC ${srcs})
 
-    # Include own headers
-    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}")
-        target_include_directories(${libname} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
-    endif()
+    # Add own include path (headers are in same dir as sources)
+    target_include_directories(${libname} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
 
-    # Always include Util headers (handle mono & FetchContent)
-    if(EXISTS "${CMAKE_SOURCE_DIR}/lib/Util")
-        target_include_directories(${libname} PUBLIC "${CMAKE_SOURCE_DIR}/lib/Util")
-    elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../Util")
-        target_include_directories(${libname} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/../Util")
-    elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../../../../libs-src/lib/Util")
-        target_include_directories(${libname} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/../../../../libs-src/lib/Util")
-    else()
-        message(WARNING "Util not found for ${libname}")
-    endif()
-
-    # Link Util (unless this is Util itself)
-    if(TARGET Util AND NOT "${libname}" STREQUAL "Util")
-        target_link_libraries(${libname} PUBLIC Util)
-    endif()
-
-    # Link declared deps
+    # Add include paths and link for declared dependencies
     foreach(dep IN LISTS ARG_DEPENDS)
-        target_link_libraries(${libname} PUBLIC ${dep})
+        # Try to find the dep's directory relative to this library
+        if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../${dep}")
+            target_include_directories(${libname} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/../${dep}")
+        elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../../../../libs-src/lib/${dep}")
+            target_include_directories(${libname} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/../../../../libs-src/lib/${dep}")
+        else()
+            message(WARNING "Include path for dependency '${dep}' not found from ${libname}")
+        endif()
+
+        # Link against the dependency if it's a known CMake target
+        if(TARGET ${dep})
+            target_link_libraries(${libname} PUBLIC ${dep})
+        endif()
     endforeach()
 endfunction()
 
