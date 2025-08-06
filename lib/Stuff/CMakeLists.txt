@@ -1,4 +1,4 @@
-BUILD_LIB(Stuff)a
+BUILD_LIB(Stuff)
 
 if(NOT MSVC)
     set_source_files_properties(
