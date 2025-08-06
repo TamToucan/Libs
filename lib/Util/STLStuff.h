@@ -12,7 +12,7 @@ namespace Util {
 //				std::bind2nd( Util::first_equals<int, std::string>(), iVal) );
 //
 template<typename PT1, typename PT2>
-struct first_equals : std::binary_function< std::pair<PT1,PT2>, PT1, bool> {
+struct first_equals {
     bool operator()(const std::pair<PT1, PT2>& p, const PT1& f) const {
         return p.first == f;
     }
@@ -22,7 +22,7 @@ struct first_equals : std::binary_function< std::pair<PT1,PT2>, PT1, bool> {
 // As above, but for .second member
 //
 template<typename PT1, typename PT2>
-struct second_equals : std::binary_function< std::pair<PT1,PT2>, PT2, bool> {
+struct second_equals {
     bool operator()(const std::pair<PT1, PT2>& p, const PT2& s) const {
         return p.second == s;
     }
@@ -34,7 +34,7 @@ struct second_equals : std::binary_function< std::pair<PT1,PT2>, PT2, bool> {
 // As previous, but takes a std::pair
 //
 template<typename PT>
-struct pair_first_equals : std::binary_function< PT, typename PT::first_type, bool> {
+struct pair_first_equals {
     bool operator()(const PT& p, const typename PT::first_type& f) const {
         return p.first == f;
     }
@@ -44,7 +44,7 @@ struct pair_first_equals : std::binary_function< PT, typename PT::first_type, bo
 // As previous, but takes a std::pair
 //
 template<typename PT>
-struct pair_second_equals : std::binary_function< PT, typename PT::second_type, bool> {
+struct pair_second_equals {
     bool operator()(const PT& p, const typename PT::second_type& f) const {
         return p.second == f;
     }
@@ -57,7 +57,7 @@ struct pair_second_equals : std::binary_function< PT, typename PT::second_type, 
 // Equivalent to the SGI select1st
 //
 template<typename PT>
-struct select1st : public std::unary_function<PT, typename PT::first_type>
+struct select1st 
 {
     typename PT::first_type& operator()(PT& o) const { return o.first; }
     const typename PT::first_type& operator()(const PT& o) const { return o.first; }
@@ -66,7 +66,7 @@ struct select1st : public std::unary_function<PT, typename PT::first_type>
 //
 // As above, but for select2nd
 template<typename PT>
-struct select2nd : public std::unary_function<PT, typename PT::second_type>
+struct select2nd 
 {
     typename PT::second_type& operator()(PT& o) const { return o.second; }
     const typename PT::second_type& operator()(const PT& o) const { return o.second; }
@@ -78,7 +78,7 @@ struct select2nd : public std::unary_function<PT, typename PT::second_type>
 // compose two objects so that the result of the 2nd is passed to the first
 //
 template <class OP1, class OP2>
-class unary_compose : public std::unary_function<typename OP2::argument_type, typename OP1::result_type>
+class unary_compose 
 {
 protected:
     OP1 fn1;

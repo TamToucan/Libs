@@ -10,7 +10,11 @@
 
 // Should check if it's GCC I suppose
 #ifndef NEVER_INLINE
+#ifdef _MSC_VER
+#define NEVER_INLINE 
+#else
 #define NEVER_INLINE __attribute__((__noinline__))
+#endif
 #endif
 
 #define COMPILE_TIME_SIZE_CHECK(name, size) \

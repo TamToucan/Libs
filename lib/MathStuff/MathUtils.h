@@ -6,6 +6,7 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 #define HAVE_LRINTF
+#include <ciso646>
 
 namespace MathStuff {
 

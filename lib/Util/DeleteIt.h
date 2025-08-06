@@ -11,7 +11,7 @@ namespace Util {
 // Functor to delete object
 //
 template <typename DeletablePtr>
-struct DeleteIt : public std::unary_function<DeletablePtr, void>
+struct DeleteIt 
 {
 public:
     void operator () (DeletablePtr const& obj) const { delete obj; }

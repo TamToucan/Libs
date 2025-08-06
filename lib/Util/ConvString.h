@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <iterator>
 #include <cctype>
+#include <ciso646>
 
 // NOTE: If include Debug.h it uses splitString so would need forward dec
 
