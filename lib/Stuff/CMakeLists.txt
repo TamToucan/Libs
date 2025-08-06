@@ -1,8 +1,7 @@
 BUILD_LIB(Stuff)
 
 if(MSVC)
-    # Disable warnings that correspond to GCC’s -Wnarrowing
-    target_compile_options(${CMAKE_CURRENT_SOURCE_DIR}/TGA.cpp PRIVATE
+    target_compile_options(Stuff PRIVATE
         /wd4838  # conversion from 'type' to 'type' requires a narrowing conversion
     )
 else()
