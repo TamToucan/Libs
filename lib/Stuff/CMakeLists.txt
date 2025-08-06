@@ -1,3 +1,7 @@
+if(LIBS_SUPERREPO_MODE)
+    return()
+endif()
+
 BUILD_LIB(Stuff)
 
 set_source_files_properties(
