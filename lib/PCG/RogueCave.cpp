@@ -3,6 +3,8 @@
 #include <cstdlib>
 #include <iostream>
 
+#include "Debug.h"
+
 namespace PCG {
 
 RogueCave::RogueCave(int width, int height) :
@@ -11,7 +13,7 @@ RogueCave::RogueCave(int width, int height) :
 	{
     grid.resize(mHeight, std::vector<int>(mWidth, TILE_WALL));
     grid2.resize(mHeight, std::vector<int>(mWidth, TILE_WALL));
-	std::cerr << "## CREATE ROGUE CAVE " << mWidth << "x" << mHeight << std::endl;
+    LOG_INFO("## CREATE ROGUE CAVE " << mWidth << "x" << mHeight);
 }
 
 void RogueCave::addGeneration(Util::IntRange b3, Util::IntRange b5, Util::IntRange s3, Util::IntRange s5, int reps) {
@@ -55,7 +57,7 @@ std::pair<int, int> RogueCave::count_neighbors(int x, int y) {
 
 // Perform one generation of cellular automaton
 void RogueCave::generation(const RogueCave::Generation& params) {
-	std::cerr << "########################### GENERATE ROGUE CAVE ##########################" << std::endl;
+    LOG_INFO("#### GENERATE ROGUE CAVE");
     for (int y = 0; y < mHeight; ++y) {
         for (int x = 0; x < mWidth; ++x) {
             grid2[y][x] = grid[y][x];
@@ -92,17 +94,16 @@ void RogueCave::generation(const RogueCave::Generation& params) {
 }
 
 std::vector<std::vector<int>>& RogueCave::generate() {
-	std::cerr << "## GENERATE ROGUE " << "  " << grid.size() << "x" << grid[0].size() << std::endl;
+    LOG_INFO("## GENERATE ROGUE " << "  " << grid.size() << "x" << grid[0].size());
     for (const auto& params : mGenerations) {
         for (int i = 0; i < params.reps; ++i) {
-        	std::cerr << "===== Rep: " << i << " of " << params.reps
-        			<< " B3x3:" << params.born3 << " B5x5:" << params.born5
-        			<< " S3x3:" << params.survive3 << " S5x5:" << params.survive5
-					<< std::endl;
+            LOG_INFO("===== Rep: " << i << " of " << params.reps
+                << " B3x3:" << params.born3 << " B5x5:" << params.born5
+                << " S3x3:" << params.survive3 << " S5x5:" << params.survive5);
             generation(params);
         }
     }
-	std::cerr << "## RETURN " << "  " << grid.size() << "x" << grid[0].size() << std::endl;
+    LOG_INFO("##=> RETURN " << "  " << grid.size() << "x" << grid[0].size());
 
     return grid;
 }
