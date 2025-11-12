@@ -33,6 +33,8 @@ namespace Util {
 #   define SET_ERRORFILE(f)    do { } while(0)
 
 #   define LOG_DEBUG(p1)       do { } while(0)
+#   define LOG_DEBUG_FOR(f,p1) do { } while(0)
+#   define LOG_DEBUG_CONT(p1)  do { } while(0)
 #   define LOG_INFO(p1)        do { } while(0)
 #   define LOG_WARNING(p1)     do { } while(0)
 #   define LOG_ERROR(p1)       do { } while(0)
@@ -51,11 +53,23 @@ namespace Util {
 #define SET_ERRORFILE(f) \
     Util::Debug::instance()->setErrorFile(f)
 
-#define LOG_DEBUG(p1) \
+#define LOG_DEBUG_CONT(p1) \
    do { \
        if (Util::Debug::instance()->debugOn()) \
-           Util::Debug::instance()->debugOut() << p1 << std::endl; \
+           Util::Debug::instance()->debugOut() << p1; \
    } while(0)
+
+#define LOG_DEBUG(p1) \
+   LOG_DEBUG_CONT(p1 << std::endl)
+
+#define LOG_DEBUG_FOR(fr, p1) \
+   if (Util::Debug::instance()->debugOn()) \
+       do { \
+           for (fr) { \
+               Util::Debug::instance()->debugOut() << p1; \
+           } \
+           Util::Debug::instance()->debugOut() << std::endl; \
+     } while(0)
 
 #define LOG_INFO(p1) \
    do { \
