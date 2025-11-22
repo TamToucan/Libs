@@ -94,7 +94,7 @@ void RogueCave::generation(const RogueCave::Generation& params) {
 }
 
 std::vector<std::vector<int>>& RogueCave::generate() {
-    LOG_INFO("## GENERATE ROGUE " << "  " << grid.size() << "x" << grid[0].size());
+    LOG_INFO("## GENERATE ROGUE " << "  " << grid[0].size() << "x" << grid.size());
     for (const auto& params : mGenerations) {
         for (int i = 0; i < params.reps; ++i) {
             LOG_INFO("===== Rep: " << i << " of " << params.reps
