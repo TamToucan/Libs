@@ -5,14 +5,12 @@
 #include "BuildConfig.h"
 #endif
 
-#include <stdlib.h>
 #include <iostream>
 #include <fstream>
 #include <string>
 
 // Need for setDebugging via string
 #include <vector>
-#include <iterator>
 #include "ConvString.h"
 #include "Singleton.h"
 
