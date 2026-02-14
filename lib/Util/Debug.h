@@ -39,6 +39,9 @@ namespace Util {
 #define SET_DEBUG(f) \
   do {               \
   } while (0)
+#define GET_DEBUG(f) \
+  do {               \
+  } while (0)
 #define SET_DEBUGFILE(f) \
   do {                   \
   } while (0)
@@ -74,6 +77,9 @@ namespace Util {
 
 #define SET_DEBUG(f) \
   Util::Debug::instance()->setDebugging(f)
+
+#define GET_DEBUG(v) \
+  auto v = Util::Debug::instance()->getDebugging()
 
 #define SET_DEBUGFILE(f) \
   Util::Debug::instance()->setDebugFile(f)
@@ -234,6 +240,8 @@ class UTIL_API Debug {
 
   void setDebugFile(const std::string& f) { changeFile(f, m_debugFile, m_pDebugOut, &std::cout); }
   void setErrorFile(const std::string& f) { changeFile(f, m_errorFile, m_pErrorOut, &std::cerr); }
+
+  int getDebugging() const { return m_debugFlags; }
 
   std::ostream& debugOut() { return *m_pDebugOut; }
   std::ostream& errorOut() { return *m_pErrorOut; }
