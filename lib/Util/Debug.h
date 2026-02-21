@@ -36,140 +36,142 @@ namespace Util {
 
 #ifdef RELEASE_BUILD
 
-#define SET_DEBUG(f) \
-  do {               \
+#define SET_DEBUG(f)                                                           \
+  do {                                                                         \
   } while (0)
-#define GET_DEBUG(f) \
-  do {               \
+#define GET_DEBUG(f)                                                           \
+  do {                                                                         \
   } while (0)
-#define SET_DEBUGFILE(f) \
-  do {                   \
+#define SET_DEBUGFILE(f)                                                       \
+  do {                                                                         \
   } while (0)
-#define SET_ERRORFILE(f) \
-  do {                   \
+#define SET_ERRORFILE(f)                                                       \
+  do {                                                                         \
   } while (0)
 
-#define LOG_DEBUG(p1) \
-  do {                \
+#define LOG_DEBUG(p1)                                                          \
+  do {                                                                         \
   } while (0)
-#define LOG_DEBUG_FOR(f, p1) \
-  do {                       \
+#define LOG_DEBUG_FOR(f, p1)                                                   \
+  do {                                                                         \
   } while (0)
-#define LOG_DEBUG_CONT(p1) \
-  do {                     \
+#define LOG_DEBUG_CONT(p1)                                                     \
+  do {                                                                         \
   } while (0)
-#define LOG_INFO(p1) \
-  do {               \
+#define LOG_INFO(p1)                                                           \
+  do {                                                                         \
   } while (0)
-#define LOG_WARNING(p1) \
-  do {                  \
+#define LOG_WARNING(p1)                                                        \
+  do {                                                                         \
   } while (0)
-#define LOG_ERROR(p1) \
-  do {                \
+#define LOG_ERROR(p1)                                                          \
+  do {                                                                         \
   } while (0)
-#define LOG_ASSERT(cnd, p1) \
-  do {                      \
+#define LOG_ASSERT(cnd, p1)                                                    \
+  do {                                                                         \
   } while (0)
 
 #undef USE_LOG_ENTRY
 
 #else
 
-#define SET_DEBUG(f) \
-  Util::Debug::instance()->setDebugging(f)
+#define SET_DEBUG(f) Util::Debug::instance()->setDebugging(f)
 
-#define GET_DEBUG(v) \
-  auto v = Util::Debug::instance()->getDebugging()
+#define GET_DEBUG(v) auto v = Util::Debug::instance()->getDebugging()
 
-#define SET_DEBUGFILE(f) \
-  Util::Debug::instance()->setDebugFile(f)
+#define SET_DEBUGFILE(f) Util::Debug::instance()->setDebugFile(f)
 
-#define SET_ERRORFILE(f) \
-  Util::Debug::instance()->setErrorFile(f)
+#define SET_ERRORFILE(f) Util::Debug::instance()->setErrorFile(f)
 
-#define LOG_DEBUG_CONT(p1)                       \
-  do {                                           \
-    if (Util::Debug::instance()->debugOn())      \
-      Util::Debug::instance()->debugOut() << p1; \
+#define LOG_DEBUG_CONT(p1)                                                     \
+  do {                                                                         \
+    if (Util::Debug::instance()->debugOn())                                    \
+      Util::Debug::instance()->debugOut() << p1;                               \
   } while (0)
 
-#define LOG_DEBUG(p1) \
-  LOG_DEBUG_CONT(p1 << std::endl)
+#define LOG_DEBUG(p1) LOG_DEBUG_CONT(p1 << std::endl)
 
-#define LOG_DEBUG_FOR(fr, p1)                           \
-  if (Util::Debug::instance()->debugOn())               \
-    do {                                                \
-      for (fr) {                                        \
-        Util::Debug::instance()->debugOut() << p1;      \
-      }                                                 \
-      Util::Debug::instance()->debugOut() << std::endl; \
+#define LOG_DEBUG_FOR(fr, p1)                                                  \
+  if (Util::Debug::instance()->debugOn())                                      \
+    do {                                                                       \
+      for (fr) {                                                               \
+        Util::Debug::instance()->debugOut() << p1;                             \
+      }                                                                        \
+      Util::Debug::instance()->debugOut() << std::endl;                        \
   } while (0)
 
-#define LOG_INFO(p1)                                                      \
-  do {                                                                    \
-    if (Util::Debug::instance()->infoOn())                                \
-      Util::Debug::instance()->errorOut() << "INFO: " << p1 << std::endl; \
+#define LOG_INFO(p1)                                                           \
+  do {                                                                         \
+    if (Util::Debug::instance()->infoOn())                                     \
+      Util::Debug::instance()->errorOut() << "INFO: " << p1 << std::endl;      \
   } while (0)
 
-#define LOG_WARNING(p1)                                                      \
-  do {                                                                       \
-    if (Util::Debug::instance()->warningOn())                                \
-      Util::Debug::instance()->errorOut() << "WARNING: " << p1 << std::endl; \
+#define LOG_WARNING(p1)                                                        \
+  do {                                                                         \
+    if (Util::Debug::instance()->warningOn())                                  \
+      Util::Debug::instance()->errorOut() << "WARNING: " << p1 << std::endl;   \
   } while (0)
 
-#define LOG_ERROR(p1)                                                                                                                             \
-  do {                                                                                                                                            \
-    if (Util::Debug::instance()->errorOn()) {                                                                                                     \
-      Util::Debug::instance()->errorOut() << "ERROR: Func:" << __PRETTY_FUNCTION__ << " File:" << __FILE__ << " Line: " << __LINE__ << std::endl; \
-      Util::Debug::instance()->errorOut() << "ERROR: " << p1 << std::endl;                                                                        \
-    }                                                                                                                                             \
+#define LOG_ERROR(p1)                                                          \
+  do {                                                                         \
+    if (Util::Debug::instance()->errorOn()) {                                  \
+      /* Util::Debug::instance()->errorOut() << "ERROR: Func:" <<              \
+       * __PRETTY_FUNCTION__ << " File:" << __FILE__ << " Line: " << __LINE__  \
+       * << std::endl; */                                                      \
+      /* Util::Debug::instance()->errorOut() << "ERROR: " << p1 << std::endl;  \
+       */                                                                      \
+    }                                                                          \
   } while (0)
 
-#define LOG_ASSERT(cnd, p1)                                                                                                                        \
-  do {                                                                                                                                             \
-    if (!(cnd)) {                                                                                                                                  \
-      Util::Debug::instance()->errorOut() << "ASSERT: Func:" << __PRETTY_FUNCTION__ << " File:" << __FILE__ << " Line: " << __LINE__ << std::endl; \
-      Util::Debug::instance()->errorOut() << "ASSERT: " << #cnd << std::endl;                                                                      \
-      Util::Debug::instance()->errorOut() << "ASSERT: " << p1 << std::endl;                                                                        \
-      abort();                                                                                                                                     \
-    }                                                                                                                                              \
+#define LOG_ASSERT(cnd, p1)                                                    \
+  do {                                                                         \
+    if (!(cnd)) {                                                              \
+      Util::Debug::instance()->errorOut()                                      \
+          << "ASSERT: Func:" << __PRETTY_FUNCTION__ << " File:" << __FILE__    \
+          << " Line: " << __LINE__ << std::endl;                               \
+      Util::Debug::instance()->errorOut() << "ASSERT: " << #cnd << std::endl;  \
+      Util::Debug::instance()->errorOut() << "ASSERT: " << p1 << std::endl;    \
+      abort();                                                                 \
+    }                                                                          \
   } while (0)
 
 #endif
 
-#define LOG_ALWAYS(p1)                                                 \
-  do {                                                                 \
-    Util::Debug::instance()->debugOut() << "LOG: " << p1 << std::endl; \
+#define LOG_ALWAYS(p1)                                                         \
+  do {                                                                         \
+    Util::Debug::instance()->debugOut() << "LOG: " << p1 << std::endl;         \
   } while (0)
 
-#define LOG_ABORT(p1)                                                                                                                           \
-  do {                                                                                                                                          \
-    Util::Debug::instance()->errorOut() << "ABORT: Func:" << __PRETTY_FUNCTION__ << " File:" << __FILE__ << " Line: " << __LINE__ << std::endl; \
-    Util::Debug::instance()->errorOut() << "ABORT: " << p1 << std::endl;                                                                        \
-    abort();                                                                                                                                    \
+#define LOG_ABORT(p1)                                                          \
+  do {                                                                         \
+    Util::Debug::instance()->errorOut()                                        \
+        << "ABORT: Func:" << __PRETTY_FUNCTION__ << " File:" << __FILE__       \
+        << " Line: " << __LINE__ << std::endl;                                 \
+    Util::Debug::instance()->errorOut() << "ABORT: " << p1 << std::endl;       \
+    abort();                                                                   \
   } while (0)
 
 //////////////////////////////////////////////////////
 
 #ifdef USE_LOG_ENTRY
 
-#define LOG_ENTRY()                                           \
-  Util::Debug::EntryLogger l_entryLogger(__FILE__, __func__); \
-  if (Util::Debug::instance()->logEntryOn())                  \
+#define LOG_ENTRY()                                                            \
+  Util::Debug::EntryLogger l_entryLogger(__FILE__, __func__);                  \
+  if (Util::Debug::instance()->logEntryOn())                                   \
   Util::Debug::instance()->debugOut() << std::endl
 
-#define LOG_ENTRY_INFO(p1)                                    \
-  Util::Debug::EntryLogger l_entryLogger(__FILE__, __func__); \
-  if (Util::Debug::instance()->logEntryOn())                  \
+#define LOG_ENTRY_INFO(p1)                                                     \
+  Util::Debug::EntryLogger l_entryLogger(__FILE__, __func__);                  \
+  if (Util::Debug::instance()->logEntryOn())                                   \
   Util::Debug::instance()->debugOut() << "> " << p1 << std::endl
 
 #else
 
-#define LOG_ENTRY() \
-  do {              \
+#define LOG_ENTRY()                                                            \
+  do {                                                                         \
   } while (0)
-#define LOG_ENTRY_INFO(p1) \
-  do {                     \
+#define LOG_ENTRY_INFO(p1)                                                     \
+  do {                                                                         \
   } while (0)
 
 #endif
@@ -177,8 +179,8 @@ namespace Util {
 //////////////////////////////////////////////////////
 
 class UTIL_API Debug {
- public:
-  static Debug* instance();
+public:
+  static Debug *instance();
 
   static const int DEBUG_ON = 1 << 0;
   static const int INFO_ON = 1 << 1;
@@ -189,8 +191,10 @@ class UTIL_API Debug {
   static const int WARN_ERR_ON = WARNING_ON + ERROR_ON;
   static const int INFO_WARN_ERR_ON = INFO_ON + WARNING_ON + ERROR_ON;
 
- public:
-  Debug() : m_debugFlags(0), m_level(0), m_pDebugOut(&std::cout), m_pErrorOut(&std::cerr) {
+public:
+  Debug()
+      : m_debugFlags(0), m_level(0), m_pDebugOut(&std::cout),
+        m_pErrorOut(&std::cerr) {
     setDebug(false);
     setInfo(true);
     setWarning(true);
@@ -198,11 +202,11 @@ class UTIL_API Debug {
     setLogEntry(false);
   }
 
- private:
+private:
   int m_debugFlags;
   int m_level;
-  std::ostream* m_pDebugOut;
-  std::ostream* m_pErrorOut;
+  std::ostream *m_pDebugOut;
+  std::ostream *m_pErrorOut;
   std::ofstream m_debugFile;
   std::ofstream m_errorFile;
   void setFlag(bool on, int flag) {
@@ -212,7 +216,8 @@ class UTIL_API Debug {
       m_debugFlags &= ~flag;
   }
   // Close the current file and open a new open, use default if error
-  void changeFile(const std::string& f, std::ofstream& fs, std::ostream*& pOut, std::ostream* pDef) {
+  void changeFile(const std::string &f, std::ofstream &fs, std::ostream *&pOut,
+                  std::ostream *pDef) {
     if (not f.empty()) {
       if (fs.is_open()) {
         fs.close();
@@ -222,7 +227,7 @@ class UTIL_API Debug {
     }
   }
 
- public:
+public:
   bool debugOn() const { return (m_debugFlags & DEBUG_ON); }
   bool infoOn() const { return (m_debugFlags & INFO_ON); }
   bool warningOn() const { return (m_debugFlags & WARNING_ON); }
@@ -236,27 +241,32 @@ class UTIL_API Debug {
   void setError(bool val) { setFlag(val, ERROR_ON); }
   void setLogEntry(bool val) { setFlag(val, LOGENTRY_ON); }
 
-  void setDebugging(const std::string& s) { m_debugFlags = debugFlagsFromString(s); }
+  void setDebugging(const std::string &s) {
+    m_debugFlags = debugFlagsFromString(s);
+  }
 
-  void setDebugFile(const std::string& f) { changeFile(f, m_debugFile, m_pDebugOut, &std::cout); }
-  void setErrorFile(const std::string& f) { changeFile(f, m_errorFile, m_pErrorOut, &std::cerr); }
+  void setDebugFile(const std::string &f) {
+    changeFile(f, m_debugFile, m_pDebugOut, &std::cout);
+  }
+  void setErrorFile(const std::string &f) {
+    changeFile(f, m_errorFile, m_pErrorOut, &std::cerr);
+  }
 
   int getDebugging() const { return m_debugFlags; }
 
-  std::ostream& debugOut() { return *m_pDebugOut; }
-  std::ostream& errorOut() { return *m_pErrorOut; }
+  std::ostream &debugOut() { return *m_pDebugOut; }
+  std::ostream &errorOut() { return *m_pErrorOut; }
 
- protected:
+protected:
   // Get the debugging flags from a string like
   // WARN+ERROR+INFO
   // Probably shouldn't be here, but hey
-  int debugFlagsFromString(const std::string& s) {
+  int debugFlagsFromString(const std::string &s) {
     int l_debugFlags = 0;
     std::vector<std::string> l_flagStrs;
     Util::splitString(s, "+", l_flagStrs);
     for (std::vector<std::string>::const_iterator l_itr = l_flagStrs.begin();
-         l_itr != l_flagStrs.end();
-         ++l_itr) {
+         l_itr != l_flagStrs.end(); ++l_itr) {
       if (*l_itr == "ERROR")
         l_debugFlags |= Util::Debug::ERROR_ON;
       else if (*l_itr == "WARN")
@@ -278,15 +288,15 @@ class UTIL_API Debug {
   void decDepth() { --m_level; }
   int getDepth() const { return m_level; }
 
- public:
+public:
   struct EntryLogger {
-    const char* m_pFile;
-    const char* m_pFunc;
-    EntryLogger(const char* pFile, const char* pFunc) : m_pFile(pFile), m_pFunc(pFunc) {
+    const char *m_pFile;
+    const char *m_pFunc;
+    EntryLogger(const char *pFile, const char *pFunc)
+        : m_pFile(pFile), m_pFunc(pFunc) {
       if (Util::Debug::instance()->logEntryOn()) {
         std::string l_indent(Debug::instance()->getDepth() * 3, ' ');
-        std::cout << l_indent << "{-> "
-                  << m_pFile << ':' << m_pFunc;
+        std::cout << l_indent << "{-> " << m_pFile << ':' << m_pFunc;
       }
       Debug::instance()->incDepth();
     }
@@ -294,12 +304,12 @@ class UTIL_API Debug {
       Debug::instance()->decDepth();
       if (Util::Debug::instance()->logEntryOn()) {
         std::string l_indent(Debug::instance()->getDepth() * 3, ' ');
-        std::cout << l_indent << "<-} "
-                  << m_pFile << ':' << m_pFunc << std::endl;
+        std::cout << l_indent << "<-} " << m_pFile << ':' << m_pFunc
+                  << std::endl;
       }
     }
   };
 };
 
-}  // namespace Util
+} // namespace Util
 #endif
