@@ -9,10 +9,13 @@ namespace Algo {
 //
 double tiledNoise1(double x, int octaves, double mult, double w, double time)
 {
+    double xm = x / w * mult;
+    double xm_m = xm - mult;
+    double wx = w - x;
     double l_noise =  (
-            (    getNoise2(x/w*mult,time,octaves)
-                    * (w - x) )
-            + (    getNoise2((x-w)/w*mult,time,octaves)
+            (    getNoise2(xm,time,octaves)
+                    * wx )
+            + (    getNoise2(xm_m,time,octaves)
                     * (x) )
     ) / (w);
     return l_noise;
@@ -23,39 +26,51 @@ double tiledNoise1(double x, int octaves, double mult, double w, double time)
 //
 double tiledNoise2NoTime(double x, double y, int octaves, double mult, double w, double h)
 {
+    double xm = x / w * mult;
+    double xm_m = xm - mult;
+    double wx = w - x;
+    double ym = y / h * mult;
+    double ym_m = ym - mult;
+    double hy = h - y;
     double l_noise =  (
-            (    getNoise2(x/w*mult,y/h*mult,octaves)
-                    * (w - x)
-                    * (h - y) )
-            + (    getNoise2((x-w)/w*mult,y/h*mult,octaves)
+            (    getNoise2(xm,ym,octaves)
+                    * wx
+                    * hy )
+            + (    getNoise2(xm_m,ym,octaves)
                     * (x)
-                    * (h - y) )
-            + (    getNoise2((x-w)/w*mult,(y-h)/h*mult,octaves)
+                    * hy )
+            + (    getNoise2(xm_m,ym_m,octaves)
                     * (x)
                     * (y) )
-            + (    getNoise2(x/w*mult,(y-h)/h*mult,octaves)
-                    * (w - x)
+            + (    getNoise2(xm,ym_m,octaves)
+                    * wx
                     * (y) )
     ) / (w*h);
     return l_noise;
 }
 
 double tiledNoise2(double x, double y, int octaves, double mult, double w, double h, double time)
-{
-    if (time == 0) return tiledNoise2NoTime(x,y,octaves,mult,w,h);
+{    if (time == 0) return tiledNoise2NoTime(x,y,octaves,mult,w,h);
+    double xm = x / w * mult;
+    double xm_m = xm - mult;
+    double wx = w - x;
+    double ym = y / h * mult;
+    double ym_m = ym - mult;
+    double hy = h - y;
+
 
     double l_noise =  (
-            (    getNoise3(x/w*mult,y/h*mult,time,octaves)
-                    * (w - x)
-                    * (h - y) )
-            + (    getNoise3((x-w)/w*mult,y/h*mult,time,octaves)
+            (    getNoise3(xm,ym,time,octaves)
+                    * wx
+                    * hy )
+            + (    getNoise3(xm_m,ym,time,octaves)
                     * (x)
-                    * (h - y) )
-            + (    getNoise3((x-w)/w*mult,(y-h)/h*mult,time,octaves)
+                    * hy )
+            + (    getNoise3(xm_m,ym_m,time,octaves)
                     * (x)
                     * (y) )
-            + (    getNoise3(x/w*mult,(y-h)/h*mult,time,octaves)
-                    * (w - x)
+            + (    getNoise3(xm,ym_m,time,octaves)
+                    * wx
                     * (y) )
     ) / (w*h);
     return l_noise;
@@ -66,39 +81,48 @@ double tiledNoise2(double x, double y, int octaves, double mult, double w, doubl
 //
 double tiledNoise3(double x, double y, double z, int octaves, double mult, double w, double h, double d)
 {
+    double xm = x / w * mult;
+    double xm_m = xm - mult;
+    double wx = w - x;
+    double ym = y / h * mult;
+    double ym_m = ym - mult;
+    double hy = h - y;
+    double zm = z / d * mult;
+    double zm_m = zm - mult;
+    double dz = d - z;
     double l_noise = (
-            (    getNoise3(x/w*mult,y/h*mult,z/d*mult,octaves)
-                 * (w - x)
-                 * (h - y)
-                 * (d - z) )
-            + (    getNoise3((x-w)/w*mult,y/h*mult,z/d*mult,octaves)
+            (    getNoise3(xm,ym,zm,octaves)
+                 * wx
+                 * hy
+                 * dz )
+            + (    getNoise3(xm_m,ym,zm,octaves)
                 * (x)
-                * (h - y)
-                * (d - z) )
-            + (    getNoise3((x-w)/w*mult,(y-h)/h*mult,z/d*mult,octaves)
+                * hy
+                * dz )
+            + (    getNoise3(xm_m,ym_m,zm,octaves)
                 * (x)
                 * (y)
-                * (d - z) )
-            + (    getNoise3(x/w*mult,(y-h)/h*mult,z/d*mult,octaves)
-                * (w - x)
+                * dz )
+            + (    getNoise3(xm,ym_m,zm,octaves)
+                * wx
                 * (y)
-                * (d - z) )
+                * dz )
 
 
-            + (    getNoise3(x/w*mult,y/h*mult,(z-d)/d*mult,octaves)
-                * (w - x)
-                * (h - y)
+            + (    getNoise3(xm,ym,zm_m,octaves)
+                * wx
+                * hy
                 * (z) )
-            + (    getNoise3((x-w)/w*mult,y/h*mult,(z-d)/d*mult,octaves)
+            + (    getNoise3(xm_m,ym,zm_m,octaves)
                     * (x)
-                    * (h - y)
+                    * hy
                     * (z) )
-            + (    getNoise3((x-w)/w*mult,(y-h)/h*mult,(z-d)/d*mult,octaves)
+            + (    getNoise3(xm_m,ym_m,zm_m,octaves)
                     * (x)
                     * (y)
                     * (z) )
-            + (    getNoise3(x/w*mult,(y-h)/h*mult,(z-d)/d*mult,octaves)
-                    * (w - x)
+            + (    getNoise3(xm,ym_m,zm_m,octaves)
+                    * wx
                     * (y)
                     * (z) )
 
@@ -112,10 +136,13 @@ double tiledNoise3(double x, double y, double z, int octaves, double mult, doubl
 //
 double tiledTurbulence1(double x, int octaves, double mult, double w, double time)
 {
+    double xm = x / w * mult;
+    double xm_m = xm - mult;
+    double wx = w - x;
     double l_noise =  (
-            (    getTurbulence2(x/w*mult,time,octaves)
-                    * (w - x) )
-            + (    getTurbulence2((x-w)/w*mult,time,octaves)
+            (    getTurbulence2(xm,time,octaves)
+                    * wx )
+            + (    getTurbulence2(xm_m,time,octaves)
                     * (x) )
     ) / (w);
     return l_noise;
@@ -126,39 +153,51 @@ double tiledTurbulence1(double x, int octaves, double mult, double w, double tim
 //
 double tiledTurbulence2NoTime(double x, double y, int octaves, double mult, double w, double h)
 {
+    double xm = x / w * mult;
+    double xm_m = xm - mult;
+    double wx = w - x;
+    double ym = y / h * mult;
+    double ym_m = ym - mult;
+    double hy = h - y;
     double l_noise =  (
-            (    getTurbulence2(x/w*mult,y/h*mult,octaves)
-                    * (w - x)
-                    * (h - y) )
-            + (    getTurbulence2((x-w)/w*mult,y/h*mult,octaves)
+            (    getTurbulence2(xm,ym,octaves)
+                    * wx
+                    * hy )
+            + (    getTurbulence2(xm_m,ym,octaves)
                     * (x)
-                    * (h - y) )
-            + (    getTurbulence2((x-w)/w*mult,(y-h)/h*mult,octaves)
+                    * hy )
+            + (    getTurbulence2(xm_m,ym_m,octaves)
                     * (x)
                     * (y) )
-            + (    getTurbulence2(x/w*mult,(y-h)/h*mult,octaves)
-                    * (w - x)
+            + (    getTurbulence2(xm,ym_m,octaves)
+                    * wx
                     * (y) )
     ) / (w*h);
     return l_noise;
 }
 
 double tiledTurbulence2(double x, double y, int octaves, double mult, double w, double h, double time)
-{
-    if (time == 0) return tiledTurbulence2NoTime(x,y,octaves,mult,w,h);
+{    if (time == 0) return tiledTurbulence2NoTime(x,y,octaves,mult,w,h);
+    double xm = x / w * mult;
+    double xm_m = xm - mult;
+    double wx = w - x;
+    double ym = y / h * mult;
+    double ym_m = ym - mult;
+    double hy = h - y;
+
 
     double l_noise =  (
-            (    getTurbulence3(x/w*mult,y/h*mult,time,octaves)
-                    * (w - x)
-                    * (h - y) )
-            + (    getTurbulence3((x-w)/w*mult,y/h*mult,time,octaves)
+            (    getTurbulence3(xm,ym,time,octaves)
+                    * wx
+                    * hy )
+            + (    getTurbulence3(xm_m,ym,time,octaves)
                     * (x)
-                    * (h - y) )
-            + (    getTurbulence3((x-w)/w*mult,(y-h)/h*mult,time,octaves)
+                    * hy )
+            + (    getTurbulence3(xm_m,ym_m,time,octaves)
                     * (x)
                     * (y) )
-            + (    getTurbulence3(x/w*mult,(y-h)/h*mult,time,octaves)
-                    * (w - x)
+            + (    getTurbulence3(xm,ym_m,time,octaves)
+                    * wx
                     * (y) )
     ) / (w*h);
     return l_noise;
@@ -169,39 +208,48 @@ double tiledTurbulence2(double x, double y, int octaves, double mult, double w, 
 //
 double tiledTurbulence3(double x, double y, double z, int octaves, double mult, double w, double h, double d)
 {
+    double xm = x / w * mult;
+    double xm_m = xm - mult;
+    double wx = w - x;
+    double ym = y / h * mult;
+    double ym_m = ym - mult;
+    double hy = h - y;
+    double zm = z / d * mult;
+    double zm_m = zm - mult;
+    double dz = d - z;
     double l_noise = (
-            (    getTurbulence3(x/w*mult,y/h*mult,z/d*mult,octaves)
-                 * (w - x)
-                 * (h - y)
-                 * (d - z) )
-            + (    getTurbulence3((x-w)/w*mult,y/h*mult,z/d*mult,octaves)
+            (    getTurbulence3(xm,ym,zm,octaves)
+                 * wx
+                 * hy
+                 * dz )
+            + (    getTurbulence3(xm_m,ym,zm,octaves)
                 * (x)
-                * (h - y)
-                * (d - z) )
-            + (    getTurbulence3((x-w)/w*mult,(y-h)/h*mult,z/d*mult,octaves)
+                * hy
+                * dz )
+            + (    getTurbulence3(xm_m,ym_m,zm,octaves)
                 * (x)
                 * (y)
-                * (d - z) )
-            + (    getTurbulence3(x/w*mult,(y-h)/h*mult,z/d*mult,octaves)
-                * (w - x)
+                * dz )
+            + (    getTurbulence3(xm,ym_m,zm,octaves)
+                * wx
                 * (y)
-                * (d - z) )
+                * dz )
 
 
-            + (    getTurbulence3(x/w*mult,y/h*mult,(z-d)/d*mult,octaves)
-                * (w - x)
-                * (h - y)
+            + (    getTurbulence3(xm,ym,zm_m,octaves)
+                * wx
+                * hy
                 * (z) )
-            + (    getTurbulence3((x-w)/w*mult,y/h*mult,(z-d)/d*mult,octaves)
+            + (    getTurbulence3(xm_m,ym,zm_m,octaves)
                     * (x)
-                    * (h - y)
+                    * hy
                     * (z) )
-            + (    getTurbulence3((x-w)/w*mult,(y-h)/h*mult,(z-d)/d*mult,octaves)
+            + (    getTurbulence3(xm_m,ym_m,zm_m,octaves)
                     * (x)
                     * (y)
                     * (z) )
-            + (    getTurbulence3(x/w*mult,(y-h)/h*mult,(z-d)/d*mult,octaves)
-                    * (w - x)
+            + (    getTurbulence3(xm,ym_m,zm_m,octaves)
+                    * wx
                     * (y)
                     * (z) )
 
@@ -218,10 +266,13 @@ double tiledTurbulence3(double x, double y, double z, int octaves, double mult, 
 //
 double tiledSNoise1(double x, int octaves, double mult, double w, double time)
 {
+    double xm = x / w * mult;
+    double xm_m = xm - mult;
+    double wx = w - x;
     double l_noise =  (
-            (    getSNoise2(x/w*mult,time,octaves)
-                    * (w - x) )
-            + (    getSNoise2((x-w)/w*mult,time,octaves)
+            (    getSNoise2(xm,time,octaves)
+                    * wx )
+            + (    getSNoise2(xm_m,time,octaves)
                     * (x) )
     ) / (w);
     return l_noise;
@@ -232,38 +283,50 @@ double tiledSNoise1(double x, int octaves, double mult, double w, double time)
 //
 double tiledSNoise2NoTime(double x, double y, int octaves, double mult, double w, double h)
 {
+    double xm = x / w * mult;
+    double xm_m = xm - mult;
+    double wx = w - x;
+    double ym = y / h * mult;
+    double ym_m = ym - mult;
+    double hy = h - y;
     double l_noise =  (
-            (    getSNoise2(x/w*mult,y/h*mult,octaves)
-                    * (w - x)
-                    * (h - y) )
-            + (    getSNoise2((x-w)/w*mult,y/h*mult,octaves)
+            (    getSNoise2(xm,ym,octaves)
+                    * wx
+                    * hy )
+            + (    getSNoise2(xm_m,ym,octaves)
                     * (x)
-                    * (h - y) )
-            + (    getSNoise2((x-w)/w*mult,(y-h)/h*mult,octaves)
+                    * hy )
+            + (    getSNoise2(xm_m,ym_m,octaves)
                     * (x)
                     * (y) )
-            + (    getSNoise2(x/w*mult,(y-h)/h*mult,octaves)
-                    * (w - x)
+            + (    getSNoise2(xm,ym_m,octaves)
+                    * wx
                     * (y) )
     ) / (w*h);
     return l_noise;
 }
 
 double tiledSNoise2(double x, double y, int octaves, double mult, double w, double h, double time)
-{
-    if (time==0) return tiledSNoise2NoTime(x,y,octaves,mult,w,h);
+{    if (time==0) return tiledSNoise2NoTime(x,y,octaves,mult,w,h);
+    double xm = x / w * mult;
+    double xm_m = xm - mult;
+    double wx = w - x;
+    double ym = y / h * mult;
+    double ym_m = ym - mult;
+    double hy = h - y;
+
     double l_noise =  (
-            (    getSNoise3(x/w*mult,y/h*mult,time,octaves)
-                    * (w - x)
-                    * (h - y) )
-            + (    getSNoise3((x-w)/w*mult,y/h*mult,time,octaves)
+            (    getSNoise3(xm,ym,time,octaves)
+                    * wx
+                    * hy )
+            + (    getSNoise3(xm_m,ym,time,octaves)
                     * (x)
-                    * (h - y) )
-            + (    getSNoise3((x-w)/w*mult,(y-h)/h*mult,time,octaves)
+                    * hy )
+            + (    getSNoise3(xm_m,ym_m,time,octaves)
                     * (x)
                     * (y) )
-            + (    getSNoise3(x/w*mult,(y-h)/h*mult,time,octaves)
-                    * (w - x)
+            + (    getSNoise3(xm,ym_m,time,octaves)
+                    * wx
                     * (y) )
     ) / (w*h);
     return l_noise;
@@ -274,39 +337,48 @@ double tiledSNoise2(double x, double y, int octaves, double mult, double w, doub
 //
 double tiledSNoise3NoTime(double x, double y, double z, int octaves, double mult, double w, double h, double d)
 {
+    double xm = x / w * mult;
+    double xm_m = xm - mult;
+    double wx = w - x;
+    double ym = y / h * mult;
+    double ym_m = ym - mult;
+    double hy = h - y;
+    double zm = z / d * mult;
+    double zm_m = zm - mult;
+    double dz = d - z;
     double l_noise = (
-            (    getSNoise3(x/w*mult,y/h*mult,z/d*mult,octaves)
-                 * (w - x)
-                 * (h - y)
-                 * (d - z) )
-            + (    getSNoise3((x-w)/w*mult,y/h*mult,z/d*mult,octaves)
+            (    getSNoise3(xm,ym,zm,octaves)
+                 * wx
+                 * hy
+                 * dz )
+            + (    getSNoise3(xm_m,ym,zm,octaves)
                 * (x)
-                * (h - y)
-                * (d - z) )
-            + (    getSNoise3((x-w)/w*mult,(y-h)/h*mult,z/d*mult,octaves)
+                * hy
+                * dz )
+            + (    getSNoise3(xm_m,ym_m,zm,octaves)
                 * (x)
                 * (y)
-                * (d - z) )
-            + (    getSNoise3(x/w*mult,(y-h)/h*mult,z/d*mult,octaves)
-                * (w - x)
+                * dz )
+            + (    getSNoise3(xm,ym_m,zm,octaves)
+                * wx
                 * (y)
-                * (d - z) )
+                * dz )
 
 
-            + (    getSNoise3(x/w*mult,y/h*mult,(z-d)/d*mult,octaves)
-                * (w - x)
-                * (h - y)
+            + (    getSNoise3(xm,ym,zm_m,octaves)
+                * wx
+                * hy
                 * (z) )
-            + (    getSNoise3((x-w)/w*mult,y/h*mult,(z-d)/d*mult,octaves)
+            + (    getSNoise3(xm_m,ym,zm_m,octaves)
                     * (x)
-                    * (h - y)
+                    * hy
                     * (z) )
-            + (    getSNoise3((x-w)/w*mult,(y-h)/h*mult,(z-d)/d*mult,octaves)
+            + (    getSNoise3(xm_m,ym_m,zm_m,octaves)
                     * (x)
                     * (y)
                     * (z) )
-            + (    getSNoise3(x/w*mult,(y-h)/h*mult,(z-d)/d*mult,octaves)
-                    * (w - x)
+            + (    getSNoise3(xm,ym_m,zm_m,octaves)
+                    * wx
                     * (y)
                     * (z) )
 
@@ -315,41 +387,50 @@ double tiledSNoise3NoTime(double x, double y, double z, int octaves, double mult
 }
 
 double tiledSNoise3(double x, double y, double z, int octaves, double mult, double w, double h, double d, double time)
-{
-    if (time == 0) return tiledSNoise3NoTime(x,y,z,octaves,mult,w,h,d);
+{    if (time == 0) return tiledSNoise3NoTime(x,y,z,octaves,mult,w,h,d);
+    double xm = x / w * mult;
+    double xm_m = xm - mult;
+    double wx = w - x;
+    double ym = y / h * mult;
+    double ym_m = ym - mult;
+    double hy = h - y;
+    double zm = z / d * mult;
+    double zm_m = zm - mult;
+    double dz = d - z;
+
     double l_noise = (
-            (    getSNoise4(x/w*mult,y/h*mult,z/d*mult,time,octaves)
-                 * (w - x)
-                 * (h - y)
-                 * (d - z) )
-            + (    getSNoise4((x-w)/w*mult,y/h*mult,z/d*mult,time,octaves)
+            (    getSNoise4(xm,ym,zm,time,octaves)
+                 * wx
+                 * hy
+                 * dz )
+            + (    getSNoise4(xm_m,ym,zm,time,octaves)
                 * (x)
-                * (h - y)
-                * (d - z) )
-            + (    getSNoise4((x-w)/w*mult,(y-h)/h*mult,z/d*mult,time,octaves)
+                * hy
+                * dz )
+            + (    getSNoise4(xm_m,ym_m,zm,time,octaves)
                 * (x)
                 * (y)
-                * (d - z) )
-            + (    getSNoise4(x/w*mult,(y-h)/h*mult,z/d*mult,time,octaves)
-                * (w - x)
+                * dz )
+            + (    getSNoise4(xm,ym_m,zm,time,octaves)
+                * wx
                 * (y)
-                * (d - z) )
+                * dz )
 
 
-            + (    getSNoise4(x/w*mult,y/h*mult,(z-d)/d*mult,time,octaves)
-                * (w - x)
-                * (h - y)
+            + (    getSNoise4(xm,ym,zm_m,time,octaves)
+                * wx
+                * hy
                 * (z) )
-            + (    getSNoise4((x-w)/w*mult,y/h*mult,(z-d)/d*mult,time,octaves)
+            + (    getSNoise4(xm_m,ym,zm_m,time,octaves)
                     * (x)
-                    * (h - y)
+                    * hy
                     * (z) )
-            + (    getSNoise4((x-w)/w*mult,(y-h)/h*mult,(z-d)/d*mult,time,octaves)
+            + (    getSNoise4(xm_m,ym_m,zm_m,time,octaves)
                     * (x)
                     * (y)
                     * (z) )
-            + (    getSNoise4(x/w*mult,(y-h)/h*mult,(z-d)/d*mult,time,octaves)
-                    * (w - x)
+            + (    getSNoise4(xm,ym_m,zm_m,time,octaves)
+                    * wx
                     * (y)
                     * (z) )
 
@@ -362,89 +443,100 @@ double tiledSNoise3(double x, double y, double z, int octaves, double mult, doub
 //
 double tiledNoise4(double x, double y, double z, double ww, int octaves, double mult, double w, double h, double d, double t)
 {
+    double xm = x / w * mult;
+    double xm_m = xm - mult;
+    double wx = w - x;
+    double ym = y / h * mult;
+    double ym_m = ym - mult;
+    double hy = h - y;
+    double zm = z / d * mult;
+    double zm_m = zm - mult;
+    double dz = d - z;
+    double wwm = ww / t * mult;
+    double tw = t - ww;
     double l_noise = (
-            (    getSNoise4(x/w*mult,y/h*mult,z/d*mult,ww/t*mult,octaves)
-                 * (w - x)
-                 * (h - y)
-                 * (d - z)
-                 * (t - ww))
-            + (    getSNoise4((x-w)/w*mult,y/h*mult,z/d*mult,ww/t*mult,octaves)
+            (    getSNoise4(xm,ym,zm,wwm,octaves)
+                 * wx
+                 * hy
+                 * dz
+                 * tw)
+            + (    getSNoise4(xm_m,ym,zm,wwm,octaves)
                 * (x)
-                * (h - y)
-                * (d - z)
-                * (t - ww))
-            + (    getSNoise4((x-w)/w*mult,(y-h)/h*mult,z/d*mult,ww/t*mult,octaves)
+                * hy
+                * dz
+                * tw)
+            + (    getSNoise4(xm_m,ym_m,zm,wwm,octaves)
                 * (x)
                 * (y)
-                * (d - z)
-                * (t - ww))
-            + (    getSNoise4(x/w*mult,(y-h)/h*mult,z/d*mult,ww/t*mult,octaves)
-                * (w - x)
+                * dz
+                * tw)
+            + (    getSNoise4(xm,ym_m,zm,wwm,octaves)
+                * wx
                 * (y)
-                * (d - z)
-                * (t - ww))
+                * dz
+                * tw)
 
 
-            + (    getSNoise4(x/w*mult,y/h*mult,(z-d)/d*mult,ww/t*mult,octaves)
-                * (w - x)
-                * (h - y)
+            + (    getSNoise4(xm,ym,zm_m,wwm,octaves)
+                * wx
+                * hy
                 * (z)
-                * (t - ww))
-            + (    getSNoise4((x-w)/w*mult,y/h*mult,(z-d)/d*mult,ww/t*mult,octaves)
+                * tw)
+            + (    getSNoise4(xm_m,ym,zm_m,wwm,octaves)
                 * (x)
-                * (h - y)
+                * hy
                 * (z)
-                * (t - ww))
-            + (    getSNoise4((x-w)/w*mult,(y-h)/h*mult,(z-d)/d*mult,ww/t*mult,octaves)
+                * tw)
+            + (    getSNoise4(xm_m,ym_m,zm_m,wwm,octaves)
                 * (x)
                 * (y)
                 * (z)
-                * (t - ww))
-            + (    getSNoise4(x/w*mult,(y-h)/h*mult,(z-d)/d*mult,ww/t*mult,octaves)
-                * (w - x)
+                * tw)
+            + (    getSNoise4(xm,ym_m,zm_m,wwm,octaves)
+                * wx
                 * (y)
                 * (z)
-                * (t - ww))
+                * tw)
                     
-            + (  getSNoise4(x/w*mult,y/h*mult,z/d*mult,ww/t*mult,octaves)
-                * (w - x)
-                * (h - y)
-                * (d - z)
+            + (  getSNoise4(xm,ym,zm,wwm,octaves)
+                * wx
+                * hy
+                * dz
                 * (ww))
-            + (    getSNoise4((x-w)/w*mult,y/h*mult,z/d*mult,ww/t*mult,octaves)
+            + (    getSNoise4(xm_m,ym,zm,wwm,octaves)
                 * (x)
-                * (h - y)
-                * (d - z)
+                * hy
+                * dz
                 * (ww))
-            + (    getSNoise4((x-w)/w*mult,(y-h)/h*mult,z/d*mult,ww/t*mult,octaves)
+            + (    getSNoise4(xm_m,ym_m,zm,wwm,octaves)
                 * (x)
                 * (y)
-                * (d - z)
+                * dz
                 * (ww))
-            + (    getSNoise4(x/w*mult,(y-h)/h*mult,z/d*mult,ww/t*mult,octaves)
-                * (w - x)
+            + (    getSNoise4(xm,ym_m,zm,wwm,octaves)
+                * wx
                 * (y)
-                * (d - z)
+                * dz
                 * (ww))
 
 
-            + (    getSNoise4(x/w*mult,y/h*mult,(z-d)/d*mult,ww/t*mult,octaves)
-                * (w - x)
-                * (h - y)
+            + (    getSNoise4(xm,ym,zm_m,wwm,octaves)
+                * wx
+                * hy
                 * (z)
                 * (ww))
-            + (    getSNoise4((x-w)/w*mult,y/h*mult,(z-d)/d*mult,ww/t*mult,octaves)
+            + (    getSNoise4(xm_m,ym,zm_m,wwm,octaves)
                 * (x)
-                * (h - y)
+                * hy
                 * (z)
                 * (ww))
-            + (    getSNoise4((x-w)/w*mult,(y-h)/h*mult,(z-d)/d*mult,ww/t*mult,octaves)
+            + (    getSNoise4(xm_m,ym_m,zm_m,wwm,octaves)
                 * (x)
                 * (y)
                 * (z)
                 * (ww))
-            + (    getSNoise4(x/w*mult,(y-h)/h*mult,(z-d)/d*mult,ww/t*mult,octaves)
-                * (w - x)
+            + (    getSNoise4(xm,ym_m,zm_m,wwm,octaves)
+                * wx
                 * (y)
                 * (z)
                 * (ww))
@@ -463,10 +555,13 @@ double tiledNoise4(double x, double y, double z, double ww, int octaves, double 
 //
 double tiledSTurbulence1(double x, int octaves, double mult, double w, double time)
 {
+    double xm = x / w * mult;
+    double xm_m = xm - mult;
+    double wx = w - x;
     double l_noise =  (
-            (    getSTurbulence2(x/w*mult,time,octaves)
-                    * (w - x) )
-            + (  getSTurbulence2((x-w)/w*mult,time,octaves)
+            (    getSTurbulence2(xm,time,octaves)
+                    * wx )
+            + (  getSTurbulence2(xm_m,time,octaves)
                     * (x) )
     ) / (w);
     return l_noise;
@@ -478,38 +573,50 @@ double tiledSTurbulence1(double x, int octaves, double mult, double w, double ti
 //
 double tiledSTurbulence2NoTime(double x, double y, int octaves, double mult, double w, double h)
 {
+    double xm = x / w * mult;
+    double xm_m = xm - mult;
+    double wx = w - x;
+    double ym = y / h * mult;
+    double ym_m = ym - mult;
+    double hy = h - y;
     double l_noise =  (
-            (    getSTurbulence2(x/w*mult,y/h*mult,octaves)
-                    * (w - x)
-                    * (h - y) )
-            + (    getSTurbulence2((x-w)/w*mult,y/h*mult,octaves)
+            (    getSTurbulence2(xm,ym,octaves)
+                    * wx
+                    * hy )
+            + (    getSTurbulence2(xm_m,ym,octaves)
                     * (x)
-                    * (h - y) )
-            + (    getSTurbulence2((x-w)/w*mult,(y-h)/h*mult,octaves)
+                    * hy )
+            + (    getSTurbulence2(xm_m,ym_m,octaves)
                     * (x)
                     * (y) )
-            + (    getSTurbulence2(x/w*mult,(y-h)/h*mult,octaves)
-                    * (w - x)
+            + (    getSTurbulence2(xm,ym_m,octaves)
+                    * wx
                     * (y) )
     ) / (w*h);
     return l_noise;
 }
 
 double tiledSTurbulence2(double x, double y, int octaves, double mult, double w, double h, double time)
-{
-    if (time==0) return tiledSTurbulence2NoTime(x,y,octaves,mult,w,h);
+{    if (time==0) return tiledSTurbulence2NoTime(x,y,octaves,mult,w,h);
+    double xm = x / w * mult;
+    double xm_m = xm - mult;
+    double wx = w - x;
+    double ym = y / h * mult;
+    double ym_m = ym - mult;
+    double hy = h - y;
+
     double l_noise =  (
-            (    getSTurbulence3(x/w*mult,y/h*mult,time,octaves)
-                    * (w - x)
-                    * (h - y) )
-            + (    getSTurbulence3((x-w)/w*mult,y/h*mult,time,octaves)
+            (    getSTurbulence3(xm,ym,time,octaves)
+                    * wx
+                    * hy )
+            + (    getSTurbulence3(xm_m,ym,time,octaves)
                     * (x)
-                    * (h - y) )
-            + (    getSTurbulence3((x-w)/w*mult,(y-h)/h*mult,time,octaves)
+                    * hy )
+            + (    getSTurbulence3(xm_m,ym_m,time,octaves)
                     * (x)
                     * (y) )
-            + (    getSTurbulence3(x/w*mult,(y-h)/h*mult,time,octaves)
-                    * (w - x)
+            + (    getSTurbulence3(xm,ym_m,time,octaves)
+                    * wx
                     * (y) )
     ) / (w*h);
     return l_noise;
@@ -520,39 +627,48 @@ double tiledSTurbulence2(double x, double y, int octaves, double mult, double w,
 //
 double tiledSTurbulence3NoTime(double x, double y, double z, int octaves, double mult, double w, double h, double d)
 {
+    double xm = x / w * mult;
+    double xm_m = xm - mult;
+    double wx = w - x;
+    double ym = y / h * mult;
+    double ym_m = ym - mult;
+    double hy = h - y;
+    double zm = z / d * mult;
+    double zm_m = zm - mult;
+    double dz = d - z;
     double l_noise = (
-            (    getSTurbulence3(x/w*mult,y/h*mult,z/d*mult,octaves)
-                 * (w - x)
-                 * (h - y)
-                 * (d - z) )
-            + (    getSTurbulence3((x-w)/w*mult,y/h*mult,z/d*mult,octaves)
+            (    getSTurbulence3(xm,ym,zm,octaves)
+                 * wx
+                 * hy
+                 * dz )
+            + (    getSTurbulence3(xm_m,ym,zm,octaves)
                 * (x)
-                * (h - y)
-                * (d - z) )
-            + (    getSTurbulence3((x-w)/w*mult,(y-h)/h*mult,z/d*mult,octaves)
+                * hy
+                * dz )
+            + (    getSTurbulence3(xm_m,ym_m,zm,octaves)
                 * (x)
                 * (y)
-                * (d - z) )
-            + (    getSTurbulence3(x/w*mult,(y-h)/h*mult,z/d*mult,octaves)
-                * (w - x)
+                * dz )
+            + (    getSTurbulence3(xm,ym_m,zm,octaves)
+                * wx
                 * (y)
-                * (d - z) )
+                * dz )
 
 
-            + (    getSTurbulence3(x/w*mult,y/h*mult,(z-d)/d*mult,octaves)
-                * (w - x)
-                * (h - y)
+            + (    getSTurbulence3(xm,ym,zm_m,octaves)
+                * wx
+                * hy
                 * (z) )
-            + (    getSTurbulence3((x-w)/w*mult,y/h*mult,(z-d)/d*mult,octaves)
+            + (    getSTurbulence3(xm_m,ym,zm_m,octaves)
                     * (x)
-                    * (h - y)
+                    * hy
                     * (z) )
-            + (    getSTurbulence3((x-w)/w*mult,(y-h)/h*mult,(z-d)/d*mult,octaves)
+            + (    getSTurbulence3(xm_m,ym_m,zm_m,octaves)
                     * (x)
                     * (y)
                     * (z) )
-            + (    getSTurbulence3(x/w*mult,(y-h)/h*mult,(z-d)/d*mult,octaves)
-                    * (w - x)
+            + (    getSTurbulence3(xm,ym_m,zm_m,octaves)
+                    * wx
                     * (y)
                     * (z) )
 
@@ -561,41 +677,50 @@ double tiledSTurbulence3NoTime(double x, double y, double z, int octaves, double
 }
 
 double tiledSTurbulence3(double x, double y, double z, int octaves, double mult, double w, double h, double d, double time)
-{
-    if (time == 0) return tiledSTurbulence3NoTime(x,y,z,octaves,mult,w,h,d);
+{    if (time == 0) return tiledSTurbulence3NoTime(x,y,z,octaves,mult,w,h,d);
+    double xm = x / w * mult;
+    double xm_m = xm - mult;
+    double wx = w - x;
+    double ym = y / h * mult;
+    double ym_m = ym - mult;
+    double hy = h - y;
+    double zm = z / d * mult;
+    double zm_m = zm - mult;
+    double dz = d - z;
+
     double l_noise = (
-            (    getSNoise4(x/w*mult,y/h*mult,z/d*mult,time,octaves)
-                 * (w - x)
-                 * (h - y)
-                 * (d - z) )
-            + (    getSNoise4((x-w)/w*mult,y/h*mult,z/d*mult,time,octaves)
+            (    getSNoise4(xm,ym,zm,time,octaves)
+                 * wx
+                 * hy
+                 * dz )
+            + (    getSNoise4(xm_m,ym,zm,time,octaves)
                 * (x)
-                * (h - y)
-                * (d - z) )
-            + (    getSNoise4((x-w)/w*mult,(y-h)/h*mult,z/d*mult,time,octaves)
+                * hy
+                * dz )
+            + (    getSNoise4(xm_m,ym_m,zm,time,octaves)
                 * (x)
                 * (y)
-                * (d - z) )
-            + (    getSNoise4(x/w*mult,(y-h)/h*mult,z/d*mult,time,octaves)
-                * (w - x)
+                * dz )
+            + (    getSNoise4(xm,ym_m,zm,time,octaves)
+                * wx
                 * (y)
-                * (d - z) )
+                * dz )
 
 
-            + (    getSNoise4(x/w*mult,y/h*mult,(z-d)/d*mult,time,octaves)
-                * (w - x)
-                * (h - y)
+            + (    getSNoise4(xm,ym,zm_m,time,octaves)
+                * wx
+                * hy
                 * (z) )
-            + (    getSNoise4((x-w)/w*mult,y/h*mult,(z-d)/d*mult,time,octaves)
+            + (    getSNoise4(xm_m,ym,zm_m,time,octaves)
                     * (x)
-                    * (h - y)
+                    * hy
                     * (z) )
-            + (    getSNoise4((x-w)/w*mult,(y-h)/h*mult,(z-d)/d*mult,time,octaves)
+            + (    getSNoise4(xm_m,ym_m,zm_m,time,octaves)
                     * (x)
                     * (y)
                     * (z) )
-            + (    getSNoise4(x/w*mult,(y-h)/h*mult,(z-d)/d*mult,time,octaves)
-                    * (w - x)
+            + (    getSNoise4(xm,ym_m,zm_m,time,octaves)
+                    * wx
                     * (y)
                     * (z) )
 
@@ -608,89 +733,100 @@ double tiledSTurbulence3(double x, double y, double z, int octaves, double mult,
 //
 double tiledSTurbulence4(double x, double y, double z, double ww, int octaves, double mult, double w, double h, double d, double t)
 {
+    double xm = x / w * mult;
+    double xm_m = xm - mult;
+    double wx = w - x;
+    double ym = y / h * mult;
+    double ym_m = ym - mult;
+    double hy = h - y;
+    double zm = z / d * mult;
+    double zm_m = zm - mult;
+    double dz = d - z;
+    double wwm = ww / t * mult;
+    double tw = t - ww;
     double l_noise = (
-            (    getSTurbulence4(x/w*mult,y/h*mult,z/d*mult,ww/t*mult,octaves)
-                 * (w - x)
-                 * (h - y)
-                 * (d - z)
-                 * (t - ww))
-            + (    getSTurbulence4((x-w)/w*mult,y/h*mult,z/d*mult,ww/t*mult,octaves)
+            (    getSTurbulence4(xm,ym,zm,wwm,octaves)
+                 * wx
+                 * hy
+                 * dz
+                 * tw)
+            + (    getSTurbulence4(xm_m,ym,zm,wwm,octaves)
                 * (x)
-                * (h - y)
-                * (d - z)
-                * (t - ww))
-            + (    getSTurbulence4((x-w)/w*mult,(y-h)/h*mult,z/d*mult,ww/t*mult,octaves)
+                * hy
+                * dz
+                * tw)
+            + (    getSTurbulence4(xm_m,ym_m,zm,wwm,octaves)
                 * (x)
                 * (y)
-                * (d - z)
-                * (t - ww))
-            + (    getSTurbulence4(x/w*mult,(y-h)/h*mult,z/d*mult,ww/t*mult,octaves)
-                * (w - x)
+                * dz
+                * tw)
+            + (    getSTurbulence4(xm,ym_m,zm,wwm,octaves)
+                * wx
                 * (y)
-                * (d - z)
-                * (t - ww))
+                * dz
+                * tw)
 
 
-            + (    getSTurbulence4(x/w*mult,y/h*mult,(z-d)/d*mult,ww/t*mult,octaves)
-                * (w - x)
-                * (h - y)
+            + (    getSTurbulence4(xm,ym,zm_m,wwm,octaves)
+                * wx
+                * hy
                 * (z)
-                * (t - ww))
-            + (    getSTurbulence4((x-w)/w*mult,y/h*mult,(z-d)/d*mult,ww/t*mult,octaves)
+                * tw)
+            + (    getSTurbulence4(xm_m,ym,zm_m,wwm,octaves)
                 * (x)
-                * (h - y)
+                * hy
                 * (z)
-                * (t - ww))
-            + (    getSTurbulence4((x-w)/w*mult,(y-h)/h*mult,(z-d)/d*mult,ww/t*mult,octaves)
+                * tw)
+            + (    getSTurbulence4(xm_m,ym_m,zm_m,wwm,octaves)
                 * (x)
                 * (y)
                 * (z)
-                * (t - ww))
-            + (    getSTurbulence4(x/w*mult,(y-h)/h*mult,(z-d)/d*mult,ww/t*mult,octaves)
-                * (w - x)
+                * tw)
+            + (    getSTurbulence4(xm,ym_m,zm_m,wwm,octaves)
+                * wx
                 * (y)
                 * (z)
-                * (t - ww))
+                * tw)
                     
-            + (  getSTurbulence4(x/w*mult,y/h*mult,z/d*mult,ww/t*mult,octaves)
-                * (w - x)
-                * (h - y)
-                * (d - z)
+            + (  getSTurbulence4(xm,ym,zm,wwm,octaves)
+                * wx
+                * hy
+                * dz
                 * (ww))
-            + (    getSTurbulence4((x-w)/w*mult,y/h*mult,z/d*mult,ww/t*mult,octaves)
+            + (    getSTurbulence4(xm_m,ym,zm,wwm,octaves)
                 * (x)
-                * (h - y)
-                * (d - z)
+                * hy
+                * dz
                 * (ww))
-            + (    getSTurbulence4((x-w)/w*mult,(y-h)/h*mult,z/d*mult,ww/t*mult,octaves)
+            + (    getSTurbulence4(xm_m,ym_m,zm,wwm,octaves)
                 * (x)
                 * (y)
-                * (d - z)
+                * dz
                 * (ww))
-            + (    getSTurbulence4(x/w*mult,(y-h)/h*mult,z/d*mult,ww/t*mult,octaves)
-                * (w - x)
+            + (    getSTurbulence4(xm,ym_m,zm,wwm,octaves)
+                * wx
                 * (y)
-                * (d - z)
+                * dz
                 * (ww))
 
 
-            + (    getSTurbulence4(x/w*mult,y/h*mult,(z-d)/d*mult,ww/t*mult,octaves)
-                * (w - x)
-                * (h - y)
+            + (    getSTurbulence4(xm,ym,zm_m,wwm,octaves)
+                * wx
+                * hy
                 * (z)
                 * (ww))
-            + (    getSTurbulence4((x-w)/w*mult,y/h*mult,(z-d)/d*mult,ww/t*mult,octaves)
+            + (    getSTurbulence4(xm_m,ym,zm_m,wwm,octaves)
                 * (x)
-                * (h - y)
+                * hy
                 * (z)
                 * (ww))
-            + (    getSTurbulence4((x-w)/w*mult,(y-h)/h*mult,(z-d)/d*mult,ww/t*mult,octaves)
+            + (    getSTurbulence4(xm_m,ym_m,zm_m,wwm,octaves)
                 * (x)
                 * (y)
                 * (z)
                 * (ww))
-            + (    getSTurbulence4(x/w*mult,(y-h)/h*mult,(z-d)/d*mult,ww/t*mult,octaves)
-                * (w - x)
+            + (    getSTurbulence4(xm,ym_m,zm_m,wwm,octaves)
+                * wx
                 * (y)
                 * (z)
                 * (ww))
