@@ -14,7 +14,7 @@
 
 #include "ConvString.h"
 
-#if defined(_MSC_VER) || defined(_WIN32)
+#if (defined(_MSC_VER) || defined(_WIN32)) && !defined(LOTT_STATIC)
 #ifdef UTIL_EXPORTS
 #define UTIL_API __declspec(dllexport)
 #else

@@ -12,9 +12,9 @@ file(GLOB srcs CONFIGURE_DEPENDS
 # although GLOB would catch it, being explicit is fine or just rely on GLOB.
 # reliance on GLOB is what the other libs do.
 
-add_library(Util SHARED ${srcs})
+add_library(Util STATIC ${srcs})
 
-target_compile_definitions(Util PRIVATE UTIL_EXPORTS)
+# target_compile_definitions(Util PRIVATE UTIL_EXPORTS)
 
 target_include_directories(Util PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
 
