@@ -64,6 +64,15 @@ int main()
     RNG::RandCombined<RNG::RandMersenne, RNG::RandMother> rg6(time(0));
     printRandom("MERSENNE + MOTHER", rg6);
 #else
+
+#ifdef FITY_FITY
+    RNG::RandSimple    rg(seed);
+    for (int i=0; i<10000000; ++i)
+    {
+        int r = rg.getInt(0,1);
+        printf ("%d\n", r);
+    }
+#else
     RNG::RandUniversal rg(seed);
     //RNG::RandSimple rg(seed);
     for (int i=0; i<10000000; ++i)
@@ -73,6 +82,7 @@ int main()
         //int r = rg.getInt(-2,2);
         //printf ("%+d\n", r);
     }
+#endif
 #endif
     return 0;
 }
