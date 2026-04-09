@@ -115,11 +115,10 @@ namespace Util {
 #define LOG_ERROR(p1)                                                          \
   do {                                                                         \
     if (Util::Debug::instance()->errorOn()) {                                  \
-      /* Util::Debug::instance()->errorOut() << "ERROR: Func:" <<              \
-       * __PRETTY_FUNCTION__ << " File:" << __FILE__ << " Line: " << __LINE__  \
-       * << std::endl; */                                                      \
-      /* Util::Debug::instance()->errorOut() << "ERROR: " << p1 << std::endl;  \
-       */                                                                      \
+      Util::Debug::instance()->errorOut() << "ERROR: File:"                    \
+      << __FILE__ << " Line: " << __LINE__ << " Func: " << __func__            \
+      << std::endl;                                                            \
+      Util::Debug::instance()->errorOut() << "ERROR: " << p1 << std::endl;     \
     }                                                                          \
   } while (0)
 
