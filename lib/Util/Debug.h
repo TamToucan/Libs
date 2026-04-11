@@ -91,6 +91,15 @@ namespace Util {
 
 #define LOG_DEBUG(p1) LOG_DEBUG_CONT(p1 << std::endl)
 
+#define LOG_DEBUG_FOR2(p1, ...) \
+  if (Util::Debug::instance()->debugOn())                                      \
+    do {                                                                       \
+      for (__VA_ARGS__) {                                                      \
+        Util::Debug::instance()->debugOut() << p1;                             \
+      }                                                                        \
+      Util::Debug::instance()->debugOut() << std::endl;                        \
+  } while (0)
+
 #define LOG_DEBUG_FOR(fr, p1)                                                  \
   if (Util::Debug::instance()->debugOn())                                      \
     do {                                                                       \
