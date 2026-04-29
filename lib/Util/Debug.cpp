@@ -2,9 +2,12 @@
 
 namespace Util {
 
+namespace {
+  Debug g_debugInstance;
+}
+
 Debug* Debug::instance() {
-  static Debug s_instance;
-  return &s_instance;
+  return &g_debugInstance;
 }
 
 }  // namespace Util
