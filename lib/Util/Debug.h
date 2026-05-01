@@ -34,7 +34,7 @@
 
 namespace Util {
 
-#ifdef RELEASE_BUILD
+#if defined(RELEASE_BUILD) || defined(NO_DEBUG_LOGGING)
 
 #define SET_DEBUG(f)                                                           \
   do {                                                                         \
